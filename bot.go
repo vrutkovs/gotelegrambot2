@@ -76,6 +76,9 @@ func botServe() (err error) {
 		// Insult
 		//go insultMessage(update.Message)
 
+		// Pastebin
+		go pastebinMessage(update.Message)
+
 		// command handler
 		if update.Message.Command() != "" {
 			go commandsMainHandler(update.Message)
@@ -453,5 +456,20 @@ func insultMessage(msg *tgbotapi.Message) {
 			log.Debugf("Found %s in message. Answer %s - %s.", target, target, words[random])
 			break
 		}
+	}
+}
+
+func pastebinMessage(msg *tgbotapi.Message) {
+	//blockSize := 4096
+	// if len(msg.Text) < blockSize {
+	// 	return
+	// }
+
+	log.Debugf("Message is too big, sending it to a pastebin")
+
+	edit := tgbotapi.NewEditMessageText(msg.Chat.ID, msg.MessageID, "updated text")
+
+	if _, err := bot.Send(edit); err != nil {
+		log.Errorf("Unable to send an update: %s", err)
 	}
 }
