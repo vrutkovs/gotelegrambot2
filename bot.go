@@ -53,8 +53,8 @@ func botServe() (err error) {
 	bot.Debug = options.Debug
 	log.Debug("Telegram bot initialized sucessful")
 
-	go updatePhotoCache()
-	go filesCache.Update()
+	//go updatePhotoCache()
+	//go filesCache.Update()
 
 	updateOptions := tgbotapi.NewUpdate(0)
 	updateOptions.Timeout = 60
@@ -67,14 +67,14 @@ func botServe() (err error) {
 		if update.Message == nil {
 			continue
 		}
-		go func() {
-			if err = saveMessage(update.Message); err != nil {
-				log.Errorf("Unable to save message: %s", err)
-			}
-		}()
+		// go func() {
+		// 	if err = saveMessage(update.Message); err != nil {
+		// 		log.Errorf("Unable to save message: %s", err)
+		// 	}
+		// }()
 
 		// Insult
-		go insultMessage(update.Message)
+		//go insultMessage(update.Message)
 
 		// command handler
 		if update.Message.Command() != "" {
@@ -110,7 +110,8 @@ func saveMessage(msg *tgbotapi.Message) (err error) {
 		go getUserPhoto(msg.From)
 	}
 
-	return dbSaveMessage(msg)
+	//return dbSaveMessage(msg)
+	return nil
 }
 
 func getFile(fileID string) {

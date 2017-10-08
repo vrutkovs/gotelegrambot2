@@ -38,10 +38,10 @@ func main() {
 
 	log.Warnf("Application started...")
 
-	if err = InitDatabase(); err != nil {
-		log.Fatalf("Unable to connect to database: %s", err)
-	}
-	go cacheUpdate()
+	// if err = InitDatabase(); err != nil {
+	// 	log.Fatalf("Unable to connect to database: %s", err)
+	// }
+	// go cacheUpdate()
 
 	wg.Add(1)
 	go func() {
@@ -50,14 +50,14 @@ func main() {
 		}
 	}()
 
-	wg.Add(1)
-	go func() {
-		if err = httpServe(); err != nil {
-			log.Errorf("Unable to serve HTTP server: %s", err)
-		}
-	}()
-	wg.Add(1)
-	go updateFeeds()
+	//wg.Add(1)
+	// go func() {
+	// 	if err = httpServe(); err != nil {
+	// 		log.Errorf("Unable to serve HTTP server: %s", err)
+	// 	}
+	// }()
+	// wg.Add(1)
+	// go updateFeeds()
 
 	wg.Wait()
 }
